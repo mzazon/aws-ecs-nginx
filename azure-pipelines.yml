@@ -1,6 +1,5 @@
-# Template pipeline for deploying SAM lambdas to AWS
-# Mike Zazon - Quantum Health
-# https://aka.ms/yaml
+# Pipeline
+# MS Ref docs: https://aka.ms/yaml
 
 trigger:
   branches:
@@ -8,7 +7,7 @@ trigger:
     - master
   paths:
     include:
-    - subdir12/*
+    - /*
 
 stages:
 - stage: DeployCFN
@@ -20,10 +19,10 @@ stages:
     - task: CloudFormationCreateOrUpdateStack@1
       displayName: 'Create/Update Stack: aws-fargate-nginx-proxy'
       inputs:
-        awsCredentials: 'qh-aws-ss-prod-acct'
+        awsCredentials: 'ss-prod-acct'
         regionName: 'us-east-2'
         stackName: 'aws-fargate-nginx-proxy'
         templateSource: 'file'
-        templateFile: 'subdir12/nginx-proxy-cfn.yaml'
+        templateFile: 'nginx-proxy-cfn.yaml'
         useChangeSet: true
         changeSetName: 'Fargate-NGINX-Change-Set'
